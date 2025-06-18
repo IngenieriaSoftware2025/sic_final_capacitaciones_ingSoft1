@@ -11,6 +11,8 @@ class PermisosController extends ActiveRecord
 {
     public static function renderizarPagina(Router $router)
     {
+        verificarPermisos('permisos');
+        
         $router->render('permisos/index', []);
     }
 

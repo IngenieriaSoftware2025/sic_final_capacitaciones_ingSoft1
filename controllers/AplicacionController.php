@@ -12,6 +12,8 @@ class AplicacionController extends ActiveRecord
 
     public static function renderizarPagina(Router $router)
     {
+        verificarPermisos('aplicacion');
+        
         $router->render('aplicacion/index', []);
     }
 

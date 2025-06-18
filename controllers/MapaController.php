@@ -11,6 +11,8 @@ class MapaController extends ActiveRecord
 
     public static function renderizarPagina(Router $router)
     {
+        verificarPermisos('mapas');
+        
         $router->render('mapas/index', []);
     }
 

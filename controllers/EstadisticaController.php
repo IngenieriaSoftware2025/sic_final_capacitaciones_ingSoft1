@@ -13,6 +13,8 @@ use MVC\Router;
 class EstadisticaController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
+        verificarPermisos('estadisticas');
+
         $router->render('estadistica/index', []);
     }
 

@@ -10,6 +10,8 @@ use Model\Capacitacion;
 class CapacitacionController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
+        verificarPermisos('capacitacion');
+        
         $router->render('capacitacion/index', []);
     }
 

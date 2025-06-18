@@ -9,6 +9,8 @@ use MVC\Router;
 class AuditoriaController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
+        verificarPermisos('auditoria');
+        
         $router->render('auditoria/index', []);
     }
 
