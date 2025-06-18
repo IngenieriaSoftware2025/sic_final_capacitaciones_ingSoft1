@@ -10,6 +10,8 @@ use Model\HorarioEntrenamiento;
 class HorarioController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
+        verificarPermisos('horario');
+        
         $router->render('horario/index', []);
     }
 

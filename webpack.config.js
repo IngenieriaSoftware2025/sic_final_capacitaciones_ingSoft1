@@ -16,6 +16,7 @@ module.exports = {
     'js/horario/index' : './src/js/horario/index.js',
     'js/estadistica/index' : './src/js/estadistica/index.js',
     'js/mapas/index' : './src/js/mapas/index.js',
+    'js/auditoria/index' : './src/js/auditoria/index.js',
   },
   output: {
     filename: '[name].js',

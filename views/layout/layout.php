@@ -173,6 +173,10 @@
         <a href="/sic_final_capacitaciones_ingSoft1/mapas" class="nav-link">
             <i class="bi bi-send-check-fill"></i> Ubicaciones
         </a>
+
+         <a href="/sic_final_capacitaciones_ingSoft1/auditoria" class="nav-link">
+            <i class="bi bi-send-check-fill"></i> Monitoreo de actividad
+        </a>
     </div>
 
     <div class="main-content">

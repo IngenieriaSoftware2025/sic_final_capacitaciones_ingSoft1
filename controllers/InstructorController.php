@@ -10,6 +10,8 @@ use Model\Instructor;
 class InstructorController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
+        verificarPermisos('instructor');
+        
         $router->render('instructor/index', []);
     }
 

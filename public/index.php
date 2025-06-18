@@ -15,6 +15,7 @@ use Controllers\AsignacionController;
 use Controllers\AplicacionController;
 use Controllers\PermisosController;
 use Controllers\MapaController;
+use Controllers\AuditoriaController;
 
 
 $router = new Router();
@@ -102,6 +103,13 @@ $router->get('/estadistica/buscarInstructoresAPI', [EstadisticaController::class
 //Rutas para mapas
 $router->get('/mapas', [MapaController::class,'renderizarPagina']);
 
+//Rutas para Auditorias
+$router->get('/auditoria', [AuditoriaController::class,'renderizarPagina']);
+$router->get('/auditoria/buscarHistorialAPI', [AuditoriaController::class,'buscarHistorialAPI']);
+$router->get('/auditoria/actividadesPorMesAPI', [AuditoriaController::class,'actividadesPorMesAPI']);
+$router->get('/auditoria/usuariosMasActivosAPI', [AuditoriaController::class,'usuariosMasActivosAPI']);
+$router->get('/auditoria/rutasMasUsadasAPI', [AuditoriaController::class,'rutasMasUsadasAPI']);
+$router->get('/auditoria/estadisticasGeneralesAPI', [AuditoriaController::class,'estadisticasGeneralesAPI']);
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();

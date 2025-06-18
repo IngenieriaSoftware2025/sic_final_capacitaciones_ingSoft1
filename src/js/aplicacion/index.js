@@ -81,7 +81,6 @@ const BuscarAplicaciones = async () => {
         if (codigo == 1) {
             console.log('Aplicaciones encontradas:', data);
             
-            // Mostrar la tabla
             seccionTabla.style.display = 'block';
 
             if (datatable) {
@@ -305,7 +304,6 @@ const EliminarAplicaciones = async (e) => {
     }
 }
 
-// Event Listeners
 datatable.on('click', '.eliminar', EliminarAplicaciones);
 datatable.on('click', '.modificar', llenarFormulario);
 formAplicacion.addEventListener('submit', guardarAplicacion);

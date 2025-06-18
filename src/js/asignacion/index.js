@@ -191,7 +191,6 @@ const BuscarAsignaciones = async () => {
         if (codigo == 1) {
             console.log('Asignaciones encontradas:', data);
             
-            // Mostrar la tabla
             seccionTabla.style.display = 'block';
 
             if (datatable) {
@@ -316,7 +315,6 @@ const llenarFormulario = async (event) => {
     document.getElementById('asignacion_usuario_id').value = datos.usuario;
     document.getElementById('asignacion_app_id').value = datos.app;
     
-    // Cargar permisos de la aplicación seleccionada
     if (datos.app) {
         await cargarPermisos(datos.app);
     }
@@ -447,11 +445,9 @@ const EliminarAsignaciones = async (e) => {
     }
 }
 
-// Cargar datos al iniciar
 cargarUsuarios();
 cargarAplicaciones();
 
-// Event Listeners
 SelectAplicacion.addEventListener('change', (e) => {
     const app_id = e.target.value;
     if (app_id) {
@@ -473,7 +469,6 @@ console.log("Elementos encontrados:");
 console.log("SelectUsuario:", SelectUsuario);
 console.log("SelectAplicacion:", SelectAplicacion);
 
-// Forzar carga inmediata
 setTimeout(() => {
     console.log("Cargando datos...");
     cargarUsuarios();
