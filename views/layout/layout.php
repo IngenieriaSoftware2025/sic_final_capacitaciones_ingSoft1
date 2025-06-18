@@ -7,111 +7,198 @@
     <script src="build/js/app.js"></script>
     <link rel="shortcut icon" href="<?= asset('images/cit.png') ?>" type="image/x-icon">
     <link rel="stylesheet" href="<?= asset('build/styles.css') ?>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
     <title>DemoApp</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: 250px;
+            background: #2c3e50;
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .sidebar-header img {
+            width: 40px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-header h5 {
+            color: white;
+            margin: 0;
+        }
+
+        .nav-link {
+            display: block;
+            color: #bdc3c7;
+            padding: 15px 20px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background: #34495e;
+            color: #3498db;
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        .dropdown-menu {
+            background: #34495e;
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            color: #95a5a6;
+            padding: 10px 40px;
+            text-decoration: none;
+        }
+
+        .dropdown-item:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .main-content {
+            margin-right: 250px;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        .progress {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 250px;
+            height: 4px;
+            background: #ecf0f1;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #e74c3c;
+            width: 0%;
+        }
+
+        .footer {
+            background: #ecf0f1;
+            padding: 20px;
+            text-align: center;
+            margin-right: 250px;
+        }
+    </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark  bg-dark">
-
-        <div class="container-fluid">
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" href="/ejemplo/">
-                <img src="<?= asset('./images/cit.png') ?>" width="35px'" alt="cit">
-                Aplicaciones
-            </a>
-            <div class="collapse navbar-collapse" id="navbarToggler">
-
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="margin: 0;">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/sic_final_capacitaciones_ingSoft1/login"><i class="bi bi-house-fill me-2"></i>Login</a>
-                    </li>
-
-
-
-                    <div class="nav-item dropdown ">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <i class="bi bi-card-checklist"></i> Registro
-                        </a>
-                        <ul class="dropdown-menu  dropdown-menu-dark " id="dropwdownRevision" style="margin: 0;">
-                            <li class="nav-item">
-                                <a class="nav-link px-3" style="background: none; border: none;" href="/sic_final_capacitaciones_ingSoft1/instructor">
-                                    <i class="bi bi-person-walking"></i> Instructores
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="/sic_final_capacitaciones_ingSoft1/registro">
-                                    <i class="bi bi-person-fill-gear"></i> Usuarios</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link px-3" style="background: none; border: none;" href="/sic_final_capacitaciones_ingSoft1/compania">
-                                    <i class="bi bi-envelope"></i> Compañia
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-
-
-                    <div class="nav-item dropdown ">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear me-2"></i>Gestion
-                        </a>
-                        <ul class="dropdown-menu  dropdown-menu-dark " id="dropwdownRevision" style="margin: 0;">
-                            <li class="nav-item">
-                                <a class="nav-link px-3" style="background: none;" href="/sic_final_capacitaciones_ingSoft1/aplicacion">
-                                    <i class="bi bi-grid-fill me-2"></i>Aplicaciones
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link px-3" style="background: none; border: none;" href="/sic_final_capacitaciones_ingSoft1/permisos">
-                                    <i class="bi bi-shield-lock-fill me-2"></i>Permisos
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link px-3" style="background: none; border: none;" href="/sic_final_capacitaciones_ingSoft1/asignacion">
-                                    <i class="bi bi-shield-lock-fill me-2"></i>Asignacion de Permisos
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-
-                   <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/sic_final_capacitaciones_ingSoft1/capacitacion">
-                            <i class="bi bi-pencil-square"></i> Capacitacion</a>
-                    </li>
-
-                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/sic_final_capacitaciones_ingSoft1/horario">
-                           <i class="bi bi-alarm"></i> Horario de entrenamiento</a>
-                    </li>
-
-
-
-                </ul>
-            </div>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="<?= asset('./images/cit.png') ?>" alt="cit">
+            <h5>Aplicaciones</h5>
         </div>
 
-    </nav>
-    <div class="progress fixed-bottom" style="height: 6px;">
-        <div class="progress-bar progress-bar-animated bg-danger" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
-    <div class="container-fluid pt-5 mb-4" style="min-height: 85vh">
+        <a href="/sic_final_capacitaciones_ingSoft1/login" class="nav-link">
+            <i class="bi bi-house-fill"></i> Login
+        </a>
 
+        <a href="#" class="nav-link" onclick="toggleDropdown('registro')">
+            <i class="bi bi-card-checklist"></i> Registro
+        </a>
+        <div class="dropdown-menu" id="registro">
+            <a href="/sic_final_capacitaciones_ingSoft1/instructor" class="dropdown-item">
+                <i class="bi bi-person-walking"></i> Instructores
+            </a>
+            <a href="/sic_final_capacitaciones_ingSoft1/registro" class="dropdown-item">
+                <i class="bi bi-person-fill-gear"></i> Usuarios
+            </a>
+            <a href="/sic_final_capacitaciones_ingSoft1/compania" class="dropdown-item">
+                <i class="bi bi-envelope"></i> Compañía
+            </a>
+        </div>
+
+        <a href="#" class="nav-link" onclick="toggleDropdown('gestion')">
+            <i class="bi bi-gear"></i> Gestión
+        </a>
+        <div class="dropdown-menu" id="gestion">
+            <a href="/sic_final_capacitaciones_ingSoft1/aplicacion" class="dropdown-item">
+                <i class="bi bi-grid-fill"></i> Aplicaciones
+            </a>
+            <a href="/sic_final_capacitaciones_ingSoft1/permisos" class="dropdown-item">
+                <i class="bi bi-shield-lock-fill"></i> Permisos
+            </a>
+            <a href="/sic_final_capacitaciones_ingSoft1/asignacion" class="dropdown-item">
+                <i class="bi bi-shield-lock-fill"></i> Asignación de Permisos
+            </a>
+        </div>
+
+        <a href="/sic_final_capacitaciones_ingSoft1/capacitacion" class="nav-link">
+            <i class="bi bi-pencil-square"></i> Capacitación
+        </a>
+
+        <a href="/sic_final_capacitaciones_ingSoft1/horario" class="nav-link">
+            <i class="bi bi-alarm"></i> Horario de entrenamiento
+        </a>
+
+        <a href="/sic_final_capacitaciones_ingSoft1/estadistica" class="nav-link">
+            <i class="bi bi-bar-chart"></i> Estadísticas
+        </a>
+
+        <a href="/sic_final_capacitaciones_ingSoft1/mapas" class="nav-link">
+            <i class="bi bi-send-check-fill"></i> Ubicaciones
+        </a>
+    </div>
+
+    <div class="main-content">
         <?php echo $contenido; ?>
     </div>
-    <div class="container-fluid ">
-        <div class="row justify-content-center text-center">
-            <div class="col-12">
-                <p style="font-size:xx-small; font-weight: bold;">
-                    Comando de Informática y Tecnología, <?= date('Y') ?> &copy;
-                </p>
-            </div>
-        </div>
+
+    <div class="progress">
+        <div class="progress-bar" id="bar"></div>
     </div>
+
+    <div class="footer">
+        <p style="font-size: small; font-weight: bold; margin: 0;">
+            Comando de Informática y Tecnología, <?= date('Y') ?> &copy;
+        </p>
+    </div>
+
+    <script>
+        function toggleDropdown(id) {
+            var dropdown = document.getElementById(id);
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'block';
+            }
+        }
+    </script>
 </body>
 
 </html>

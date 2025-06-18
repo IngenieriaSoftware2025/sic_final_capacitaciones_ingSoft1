@@ -10,7 +10,12 @@ class LoginController extends ActiveRecord
 {
     public static function renderizarPagina(Router $router)
     {
-        $router->render('login/index', [], 'layout/layout_login');
+        $router->render('login/indexprincipal', [], 'layout/layout_login');
+    }
+
+    public static function renderizarPag(Router $router)
+    {
+       $router->render('login/index', [], 'layout/layout_login');
     }
 
     public static function login() 
@@ -42,7 +47,7 @@ class LoginController extends ActiveRecord
                     $_SESSION['usuario_id'] = $idUsuario;
 
                     $sqlpermisos = "SELECT permiso_clave as permiso FROM kvsc_asig_permisos 
-                                   INNER JOIN permiso ON asignacion_permiso_id = permiso_id 
+                                   INNER JOIN kvsc_permiso ON asignacion_permiso_id = permiso_id 
                                    WHERE asignacion_usuario_id = $idUsuario AND asignacion_situacion = 1";
 
                     $permisos = ActiveRecord::fetchArray($sqlpermisos);

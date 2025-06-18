@@ -10,6 +10,11 @@ use Controllers\InstructorController;
 use Controllers\CompaniaController;
 use Controllers\CapacitacionController;
 use Controllers\HorarioController;
+use Controllers\EstadisticaController;
+use Controllers\AsignacionController;
+use Controllers\AplicacionController;
+use Controllers\PermisosController;
+use Controllers\MapaController;
 
 
 $router = new Router();
@@ -19,6 +24,7 @@ $router->get('/', [LoginController::class,'renderizarPagina']);
 
 // Rutas para Login
 $router->get('/login', [LoginController::class,'renderizarPagina']);
+$router->get('/loginn', [LoginController::class,'renderizarPag']);
 $router->post('/login', [LoginController::class,'login']);
 $router->get('/logout', [LoginController::class,'logout']);
 $router->get('/inicio', [LoginController::class,'renderInicio']);
@@ -29,6 +35,33 @@ $router->post('/registro/guardarAPI', [RegistroController::class,'guardarAPI']);
 $router->get('/registro/buscarAPI', [RegistroController::class,'buscarAPI']);
 $router->get('/registro/eliminarAPI', [RegistroController::class,'eliminarAPI']);
 $router->post('/registro/modificarAPI', [RegistroController::class, 'modificarAPI']); 
+
+//Ruta para aplicaciones
+$router->get('/aplicacion', [AplicacionController::class, 'renderizarPagina']);
+$router->post('/aplicacion/guardarAPI', [AplicacionController::class, 'guardarAPI']);
+$router->get('/aplicacion/buscarAPI', [AplicacionController::class, 'buscarAPI']);
+$router->post('/aplicacion/modificarAPI', [AplicacionController::class, 'modificarAPI']);
+$router->get('/aplicacion/eliminar', [AplicacionController::class, 'EliminarAPI']);
+
+//Ruta para permisos
+$router->get('/permisos', [PermisosController::class, 'renderizarPagina']);
+$router->post('/permisos/guardarAPI', [PermisosController::class, 'guardarAPI']);
+$router->get('/permisos/buscarAPI', [PermisosController::class, 'buscarAPI']);
+$router->post('/permisos/modificarAPI', [PermisosController::class, 'modificarAPI']);
+$router->get('/permisos/eliminar', [PermisosController::class, 'EliminarAPI']);
+$router->get('/permisos/buscarAplicacionesAPI', [PermisosController::class, 'buscarAplicacionesAPI']);
+$router->get('/permisos/buscarUsuariosAPI', [PermisosController::class, 'buscarUsuariosAPI']);
+
+//Ruta para asignacion de permisos
+$router->get('/asignacion', [AsignacionController::class, 'renderizarPagina']);
+$router->post('/asignacion/guardarAPI', [AsignacionController::class, 'guardarAPI']);
+$router->get('/asignacion/buscarAPI', [AsignacionController::class, 'buscarAPI']);
+$router->post('/asignacion/modificarAPI', [AsignacionController::class, 'modificarAPI']);
+$router->get('/asignacion/eliminar', [AsignacionController::class, 'EliminarAPI']);
+
+$router->get('/asignacion/buscarUsuariosAPI', [AsignacionController::class, 'buscarUsuariosAPI']);
+$router->get('/asignacion/buscarAplicacionesAPI', [AsignacionController::class, 'buscarAplicacionesAPI']);
+$router->get('/asignacion/buscarPermisosAPI', [AsignacionController::class, 'buscarPermisosAPI']);
 
 //Ruta para Instructores
 $router->get('/instructor', [InstructorController::class,'renderizarPagina']);
@@ -61,7 +94,13 @@ $router->get('/horario/obtenerCapacitacionesAPI', [HorarioController::class,'obt
 $router->get('/horario/obtenerInstructoresAPI', [HorarioController::class,'obtenerInstructoresAPI']);
 $router->get('/horario/obtenerCompaniasAPI', [HorarioController::class,'obtenerCompaniasAPI']);
 
+//Rutas para estadisticas
+$router->get('/estadistica', [EstadisticaController::class,'renderizarPagina']);
+$router->get('/estadistica/buscarUnidadesAPI', [EstadisticaController::class,'buscarUnidadesAPI']);
+$router->get('/estadistica/buscarInstructoresAPI', [EstadisticaController::class,'buscarInstructoresAPI']);
 
+//Rutas para mapas
+$router->get('/mapas', [MapaController::class,'renderizarPagina']);
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

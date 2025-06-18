@@ -13,8 +13,6 @@ const SelectCapacitacion = document.getElementById('horario_capacitacion_id');
 const SelectInstructor = document.getElementById('horario_instructor_id');
 const SelectCompania = document.getElementById('horario_compania_id');
 
-let capacitacionesData = [];
-
 const CargarCapacitaciones = async () => {
     const url = '/sic_final_capacitaciones_ingSoft1/horario/obtenerCapacitacionesAPI';
     const config = { method: 'GET' }
@@ -25,7 +23,6 @@ const CargarCapacitaciones = async () => {
         const { codigo, data } = datos;
 
         if (codigo == 1) {
-            capacitacionesData = data;
             SelectCapacitacion.innerHTML = '<option value="">Seleccione una capacitación</option>';
             data.forEach(capacitacion => {
                 SelectCapacitacion.innerHTML += `<option value="${capacitacion.capacitacion_id}">${capacitacion.capacitacion_nombre}</option>`;
@@ -36,6 +33,25 @@ const CargarCapacitaciones = async () => {
     }
 }
 
+const CargarInstructores = async () => {
+    const url = '/sic_final_capacitaciones_ingSoft1/horario/obtenerInstructoresAPI';
+    const config = { method: 'GET' }
+
+    try {
+        const respuesta = await fetch(url, config);
+        const datos = await respuesta.json();
+        const { codigo, data } = datos;
+
+        if (codigo == 1) {
+            SelectInstructor.innerHTML = '<option value="">Seleccione un instructor</option>';
+            data.forEach(instructor => {
+                SelectInstructor.innerHTML += `<option value="${instructor.instructor_id}">${instructor.instructor_nombres} ${instructor.instructor_apellidos}</option>`;
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const CargarCompanias = async () => {
     const url = '/sic_final_capacitaciones_ingSoft1/horario/obtenerCompaniasAPI';
@@ -54,24 +70,6 @@ const CargarCompanias = async () => {
         }
     } catch (error) {
         console.log(error);
-    }
-}
-
-const ValidarFechas = () => {
-    const fechaInicio = document.getElementById('horario_fecha_inicio').value;
-    const fechaFin = document.getElementById('horario_fecha_fin').value;
-
-    if (fechaInicio && fechaFin) {
-        if (fechaInicio > fechaFin) {
-            Swal.fire({
-                position: "center",
-                icon: "error",
-                title: "Fechas inválidas",
-                text: "La fecha de inicio no puede ser mayor a la fecha de fin",
-                showConfirmButton: true,
-            });
-            document.getElementById('horario_fecha_fin').value = '';
-        }
     }
 }
 
@@ -128,7 +126,7 @@ const GuardarHorario = async (event) => {
             position: "center",
             icon: "error",
             title: "Error de Conexión",
-            text: "No se pudo conectar con el servidor. Por favor, intenta de nuevo.",
+            text: "No se pudo conectar con el servidor.",
             showConfirmButton: true,
         });
     }
@@ -261,26 +259,13 @@ const llenarFormulario = (event) => {
     BtnGuardar.classList.add('d-none');
     BtnModificar.classList.remove('d-none');
 
-    window.scrollTo({
-        top: 0
-    });
+    window.scrollTo({ top: 0 });
 }
 
 const limpiarTodo = () => {
     FormHorarios.reset();
     BtnGuardar.classList.remove('d-none');
     BtnModificar.classList.add('d-none');
-    
-    // Ocultar información de duración
-    document.getElementById('duracion-info').style.display = 'none';
-    
-    const campos = ['horario_capacitacion_id', 'horario_instructor_id', 'horario_compania_id', 'horario_ubicacion'];
-    campos.forEach(campoId => {
-        const campo = document.getElementById(campoId);
-        if (campo) {
-            campo.classList.remove('is-invalid', 'is-valid');
-        }
-    });
 }
 
 const ModificarHorario = async (event) => {
@@ -337,7 +322,7 @@ const ModificarHorario = async (event) => {
             position: "center",
             icon: "error",
             title: "Error de Conexión",
-            text: "No se pudo conectar con el servidor. Por favor, intenta de nuevo.",
+            text: "No se pudo conectar con el servidor.",
             showConfirmButton: true,
         });
     }
@@ -394,7 +379,7 @@ const EliminarHorarios = async (e) => {
                 position: "center",
                 icon: "error",
                 title: "Error de Conexión",
-                text: "No se pudo conectar con el servidor para eliminar el horario.",
+                text: "No se pudo conectar con el servidor.",
                 showConfirmButton: true,
             });
         }
@@ -410,8 +395,6 @@ document.addEventListener('DOMContentLoaded', function() {
 datatable.on('click', '.eliminar', EliminarHorarios);
 datatable.on('click', '.modificar', llenarFormulario);
 FormHorarios.addEventListener('submit', GuardarHorario);
-document.getElementById('horario_fecha_fin').addEventListener('change', ValidarFechas);
-SelectCapacitacion.addEventListener('change', MostrarDuracionCapacitacion);
 BtnLimpiar.addEventListener('click', limpiarTodo);
 BtnModificar.addEventListener('click', ModificarHorario);
 BtnBuscar.addEventListener('click', BuscarHorarios);

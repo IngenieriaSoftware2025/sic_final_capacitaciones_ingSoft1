@@ -18,7 +18,6 @@
                                 <select class="form-control" id="horario_capacitacion_id" name="horario_capacitacion_id" required>
                                     <option value="">Seleccione una capacitación</option>
                                 </select>
-                                <small id="duracion-info" class="text-info" style="display: none;"></small>
                             </div>
                             <div class="col-lg-4">
                                 <label for="horario_instructor_id" class="form-label">INSTRUCTOR</label>
@@ -31,13 +30,6 @@
                                 <select class="form-control" id="horario_compania_id" name="horario_compania_id" required>
                                     <option value="">Seleccione una compañía</option>
                                 </select>
-                            </div>
-                        </div>
-
-                        
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-12">
-                                <div id="info-duracion" style="display: none;"></div>
                             </div>
                         </div>
 

@@ -20,7 +20,8 @@ class HorarioController extends ActiveRecord{
         $_POST['horario_capacitacion_id'] = filter_var($_POST['horario_capacitacion_id'], FILTER_SANITIZE_NUMBER_INT);
         $_POST['horario_instructor_id'] = filter_var($_POST['horario_instructor_id'], FILTER_SANITIZE_NUMBER_INT);
         $_POST['horario_compania_id'] = filter_var($_POST['horario_compania_id'], FILTER_SANITIZE_NUMBER_INT);
-        $_POST['horario_usuario_asigno'] = 1; // Por ahora fijo, luego usar sesión
+        $_POST['horario_ubicacion'] = trim(htmlspecialchars($_POST['horario_ubicacion']));
+        $_POST['horario_usuario_asigno'] = 1; // Fijo por ahora
         
         if ($_POST['horario_capacitacion_id'] < 1) {
             http_response_code(400);
@@ -49,20 +50,11 @@ class HorarioController extends ActiveRecord{
             exit;
         }
         
-        if (empty($_POST['horario_fecha_inicio'])) {
+        if (strlen($_POST['horario_ubicacion']) < 5) {
             http_response_code(400);
             echo json_encode([
                 'codigo' => 0,
-                'mensaje' => 'La fecha de inicio es obligatoria'
-            ]);
-            exit;
-        }
-        
-        if (empty($_POST['horario_fecha_fin'])) {
-            http_response_code(400);
-            echo json_encode([
-                'codigo' => 0,
-                'mensaje' => 'La fecha de fin es obligatoria'
+                'mensaje' => 'La ubicación debe tener al menos 5 caracteres'
             ]);
             exit;
         }
@@ -75,17 +67,6 @@ class HorarioController extends ActiveRecord{
             ]);
             exit;
         }
-        
-        $_POST['horario_ubicacion'] = trim(htmlspecialchars($_POST['horario_ubicacion']));
-        
-        if (strlen($_POST['horario_ubicacion']) < 5) {
-            http_response_code(400);
-            echo json_encode([
-                'codigo' => 0,
-                'mensaje' => 'La ubicación debe tener al menos 5 caracteres'
-            ]);
-            exit;
-        }
 
         try {
             $horario = new HorarioEntrenamiento($_POST);
@@ -95,16 +76,14 @@ class HorarioController extends ActiveRecord{
                 http_response_code(200);
                 echo json_encode([
                     'codigo' => 1,
-                    'mensaje' => 'Horario de entrenamiento registrado correctamente',
+                    'mensaje' => 'Horario registrado correctamente',
                 ]);
                 exit;
             } else {
                 http_response_code(500);
                 echo json_encode([
                     'codigo' => 0,
-                    'mensaje' => 'Error en registrar el horario',
-                    'datos' => $_POST,
-                    'horario' => $horario,
+                    'mensaje' => 'Error al registrar horario',
                 ]);
                 exit;
             }
@@ -141,7 +120,7 @@ class HorarioController extends ActiveRecord{
             http_response_code(400);
             echo json_encode([
                 'codigo' => 0,
-                'mensaje' => 'Error al obtener los horarios',
+                'mensaje' => 'Error al obtener horarios',
                 'detalle' => $e->getMessage(),
             ]);
         }
@@ -152,7 +131,7 @@ class HorarioController extends ActiveRecord{
         getHeadersApi();
 
         try {
-            $sql = "SELECT capacitacion_id, capacitacion_nombre, capacitacion_duracion_horas FROM kvsc_capacitacion WHERE capacitacion_situacion = 1";
+            $sql = "SELECT capacitacion_id, capacitacion_nombre FROM kvsc_capacitacion WHERE capacitacion_situacion = 1";
             $data = self::fetchArray($sql);
 
             http_response_code(200);
@@ -249,11 +228,11 @@ class HorarioController extends ActiveRecord{
             return;
         }
 
-        if ($_POST['horario_fecha_inicio'] > $_POST['horario_fecha_fin']) {
+        if (strlen($_POST['horario_ubicacion']) < 5) {
             http_response_code(400);
             echo json_encode([
                 'codigo' => 0,
-                'mensaje' => 'La fecha de inicio no puede ser mayor a la fecha de fin'
+                'mensaje' => 'La ubicación debe tener al menos 5 caracteres'
             ]);
             return;
         }
@@ -279,14 +258,14 @@ class HorarioController extends ActiveRecord{
             http_response_code(200);
             echo json_encode([
                 'codigo' => 1,
-                'mensaje' => 'La información del horario ha sido modificada exitosamente'
+                'mensaje' => 'Horario modificado exitosamente'
             ]);
 
         } catch (Exception $e) {
             http_response_code(400);
             echo json_encode([
                 'codigo' => 0,
-                'mensaje' => 'Error al modificar el horario',
+                'mensaje' => 'Error al modificar horario',
                 'detalle' => $e->getMessage(),
             ]);
         }
@@ -302,13 +281,13 @@ class HorarioController extends ActiveRecord{
             http_response_code(200);
             echo json_encode([
                 'codigo' => 1,
-                'mensaje' => 'El horario ha sido eliminado correctamente'
+                'mensaje' => 'Horario eliminado correctamente'
             ]);
         } catch (Exception $e) {
             http_response_code(400);
             echo json_encode([
                 'codigo' => 0,
-                'mensaje' => 'Error al Eliminar',
+                'mensaje' => 'Error al eliminar',
                 'detalle' => $e->getMessage(),
             ]);
         }
