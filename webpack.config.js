@@ -5,6 +5,12 @@ module.exports = {
   entry: {
     'js/app' : './src/js/app.js',
     'js/inicio' : './src/js/inicio.js',
+    'js/login/index' : './src/js/login/index.js',
+    'js/registro/index' : './src/js/registro/index.js',
+    'js/instructor/index' : './src/js/instructor/index.js', 
+    'js/compania/index' : './src/js/compania/index.js',
+    'js/capacitacion/index' : './src/js/capacitacion/index.js',
+    'js/horario/index' : './src/js/horario/index.js',
   },
   output: {
     filename: '[name].js',
@@ -19,7 +25,7 @@ module.exports = {
     rules: [
       {
         test: /\.(c|sc|sa)ss$/,
-        use: [
+        use: [ 
             {
                 loader: MiniCssExtractPlugin.loader
             },
