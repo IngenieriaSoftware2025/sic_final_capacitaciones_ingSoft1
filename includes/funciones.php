@@ -119,7 +119,7 @@ function verificarPermisos($modulo) {
             ];
         
         if (!isset($permisos_modulo[$modulo])) {
-            header('Location: /sin-permisos');
+            header('Location: /' . $_ENV['APP_NAME'] . '/sin-permisos');
             exit;
         }
         
@@ -139,11 +139,11 @@ function verificarPermisos($modulo) {
             }
         }
         
-        header('Location: /sin-permisos');
+        header('Location: /' . $_ENV['APP_NAME'] . '/sin-permisos');
         exit;
         
     } catch (Exception $e) {
-        header('Location: /sin-permisos');
+        header('Location: /' . $_ENV['APP_NAME'] . '/sin-permisos');
         exit;
     }
 }
