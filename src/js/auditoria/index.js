@@ -26,7 +26,7 @@ const mostrarSecciones = () => {
 };
 
 const cargarActividades = async () => {
-    const url = '/auditoria/buscarAPI';
+    const url = '/sic_final_capacitaciones_ingSoft1/auditoria/buscarAPI';
     const config = { method: 'GET' }
     try {
         const respuesta = await fetch(url, config);
@@ -46,7 +46,7 @@ const cargarActividades = async () => {
 };
 
 const cargarUsuariosActivos = async () => {
-    const url = '/auditoria/usuariosActivosAPI';
+    const url = '/sic_final_capacitaciones_ingSoft1/auditoria/usuariosActivosAPI';
     const config = { method: 'GET' }
     try {
         const respuesta = await fetch(url, config);
