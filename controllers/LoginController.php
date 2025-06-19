@@ -18,6 +18,19 @@ class LoginController extends ActiveRecord
        $router->render('login/index', [], 'layout/layout_login');
     }
 
+    public static function sinPermisos(Router $router) {
+    session_start();
+    
+    $rol = 'Sin rol definido';
+    if (isset($_SESSION['usuario_id'])) {
+        $rol = $_SESSION['usuario_nombre'] ?? 'Usuario';
+    }
+    
+    $router->render('pages/sin-permisos', [
+        'rol' => $rol
+    ]);
+}
+
     public static function login() 
     {
         getHeadersApi();

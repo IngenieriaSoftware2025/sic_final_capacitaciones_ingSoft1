@@ -29,6 +29,7 @@ $router->get('/loginn', [LoginController::class,'renderizarPag']);
 $router->post('/login', [LoginController::class,'login']);
 $router->get('/logout', [LoginController::class,'logout']);
 $router->get('/inicio', [LoginController::class,'renderInicio']);
+$router->get('/sin-permisos', [LoginController::class, 'sinPermisos']);
 
 //Ruta para Registro
 $router->get('/registro', [RegistroController::class,'renderizarPagina']);

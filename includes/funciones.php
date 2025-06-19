@@ -107,14 +107,16 @@ function verificarPermisos($modulo) {
             return true; 
         }
         
-        $permisos_modulo = [
-            'instructor' => ['%Instructores%'],
-            'horario' => ['%Horarios%'],
-            'compania' => ['%Compañías%'],
-            'capacitacion' => ['%Horarios%'], 
-            'estadisticas' => ['%Instructores%', '%Horarios%', '%Compañías%'], 
-            'mapas' => ['%Instructores%', '%Horarios%', '%Compañías%']
-        ];
+            $permisos_modulo = [
+                'registro' => ['%Administrador%'],
+                'instructor' => ['%Instructores%'],
+                'horario' => ['%Horarios%'],
+                'compania' => ['%Compañías%'],
+                'capacitacion' => ['%Horarios%'], 
+                'estadisticas' => ['%Instructores%', '%Horarios%', '%Compañías%'], 
+                'mapas' => ['%Instructores%', '%Horarios%', '%Compañías%'],
+                'auditorias' => ['%Administrador%']
+            ];
         
         if (!isset($permisos_modulo[$modulo])) {
             header('Location: /sin-permisos');
