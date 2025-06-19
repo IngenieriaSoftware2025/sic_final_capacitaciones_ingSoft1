@@ -11,7 +11,7 @@ class AsignacionController extends ActiveRecord
 {
     public static function renderizarPagina(Router $router)
     {
-        verificarPermisos('asignacion');
+      verificarPermisos('asignacion');
         
         $router->render('asignacion/index', []);
     }

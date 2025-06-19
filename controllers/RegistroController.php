@@ -11,7 +11,7 @@ use Model\Usuarios;
 class RegistroController extends ActiveRecord{
     
 public static function renderizarPagina(Router $router){
-    verificarPermisos('registro');    
+   verificarPermisos('registro');    
     
     $router->render('registro/index', []);
     }

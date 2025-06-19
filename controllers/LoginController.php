@@ -28,7 +28,7 @@ class LoginController extends ActiveRecord
     
     $router->render('pages/sin-permisos', [
         'rol' => $rol
-    ]);
+    ], 'layout/layout_login');
 }
 
     public static function login() 

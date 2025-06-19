@@ -82,68 +82,78 @@ function asset($ruta){
     return "/". $_ENV['APP_NAME']."/public/" . $ruta;
 }
 
-function verificarPermisos($modulo) {
+function verificarLogin() {
+    session_start();
+    if (!isset($_SESSION['usuario_id'])) {
+        header('Location: /' . $_ENV['APP_NAME'] . '/login');
+        exit;
+    }
+}
+
+function obtenerRolUsuario() {
     session_start();
     
     if (!isset($_SESSION['usuario_id'])) {
-        header('Location: /login');
-        exit;
+        return 'Sin sesión';
     }
     
     $usuario_id = $_SESSION['usuario_id'];
     
     try {
-        $sql = "SELECT COUNT(*) as es_admin
+        $sql = "SELECT p.permiso_nombre
                 FROM kvsc_asig_permisos ap
                 INNER JOIN kvsc_permiso p ON p.permiso_id = ap.asignacion_permiso_id
-                WHERE ap.asignacion_usuario_id = ?
-                    AND p.permiso_nombre LIKE '%Administrador%'
+                WHERE ap.asignacion_usuario_id = $usuario_id
                     AND ap.asignacion_situacion = 1
                     AND p.permiso_situacion = 1";
+  
+        $permisos = \Model\ActiveRecord::fetchArray($sql);
         
-        $resultado = \Model\ActiveRecord::fetchFirst($sql, [$usuario_id]);
-        
-        if ($resultado['es_admin'] > 0) {
-            return true; 
-        }
-        
-            $permisos_modulo = [
-                'registro' => ['%Administrador%'],
-                'instructor' => ['%Instructores%'],
-                'horario' => ['%Horarios%'],
-                'compania' => ['%Compañías%'],
-                'capacitacion' => ['%Horarios%'], 
-                'estadisticas' => ['%Instructores%', '%Horarios%', '%Compañías%'], 
-                'mapas' => ['%Instructores%', '%Horarios%', '%Compañías%'],
-                'auditorias' => ['%Administrador%']
-            ];
-        
-        if (!isset($permisos_modulo[$modulo])) {
-            header('Location: /' . $_ENV['APP_NAME'] . '/sin-permisos');
-            exit;
-        }
-        
-        foreach ($permisos_modulo[$modulo] as $permiso_requerido) {
-            $sql = "SELECT COUNT(*) as tiene_permiso
-                    FROM kvsc_asig_permisos ap
-                    INNER JOIN kvsc_permiso p ON p.permiso_id = ap.asignacion_permiso_id
-                    WHERE ap.asignacion_usuario_id = ?
-                        AND p.permiso_nombre LIKE ?
-                        AND ap.asignacion_situacion = 1
-                        AND p.permiso_situacion = 1";
-            
-            $resultado = \Model\ActiveRecord::fetchFirst($sql, [$usuario_id, $permiso_requerido]);
-            
-            if ($resultado['tiene_permiso'] > 0) {
-                return true;
+        foreach ($permisos as $permiso) {
+            if (strpos($permiso['permiso_nombre'], 'Administrador') !== false) {
+                return 'Administrador';
+            }
+            if (strpos($permiso['permiso_nombre'], 'Oficinista') !== false) {
+                return 'Oficinista';
+            }
+            if (strpos($permiso['permiso_nombre'], 'G3') !== false) {
+                return 'G3';
             }
         }
         
-        header('Location: /' . $_ENV['APP_NAME'] . '/sin-permisos');
-        exit;
+        return 'Sin permisos';
         
     } catch (Exception $e) {
+        return 'Error';
+    }
+}
+
+function verificarPermisos($modulo) {
+    verificarLogin(); 
+    
+    $rol = obtenerRolUsuario();
+  
+    $permisos = [
+            'Administrador' => [
+                'registro', 'aplicacion', 'permisos', 'asignacion', 
+                'instructor', 'compania', 'capacitacion', 'horario', 
+                'estadisticas', 'mapas', 'auditoria'
+            ],
+            'Oficinista' => [
+                'compania', 'instructor', 'registro'            
+            ],
+            'G3' => [
+                'horario', 'capacitacion'
+            ]
+    ];
+    
+ 
+    if (!isset($permisos[$rol]) || !in_array($modulo, $permisos[$rol])) {
         header('Location: /' . $_ENV['APP_NAME'] . '/sin-permisos');
         exit;
     }
+    
+    return true;
 }
+
+

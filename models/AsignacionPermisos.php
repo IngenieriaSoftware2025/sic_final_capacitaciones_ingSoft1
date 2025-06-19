@@ -42,7 +42,7 @@ class AsignacionPermisos extends ActiveRecord {
     }
 
     public static function EliminarAsignacion($id){
-        $sql = "UPDATE asig_permisos SET asignacion_situacion = 0 WHERE asignacion_id = $id";
+        $sql = "UPDATE kvsc_asig_permisos SET asignacion_situacion = 0 WHERE asignacion_id = $id";
         return self::SQL($sql);
     }
 }

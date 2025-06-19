@@ -10,7 +10,7 @@ use Model\HorarioEntrenamiento;
 class HorarioController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
-        verificarPermisos('horario');
+      verificarPermisos('horario');
         
         $router->render('horario/index', []);
     }
@@ -23,7 +23,7 @@ class HorarioController extends ActiveRecord{
         $_POST['horario_instructor_id'] = filter_var($_POST['horario_instructor_id'], FILTER_SANITIZE_NUMBER_INT);
         $_POST['horario_compania_id'] = filter_var($_POST['horario_compania_id'], FILTER_SANITIZE_NUMBER_INT);
         $_POST['horario_ubicacion'] = trim(htmlspecialchars($_POST['horario_ubicacion']));
-        $_POST['horario_usuario_asigno'] = 1; // Fijo por ahora
+        $_POST['horario_usuario_asigno'] = 1; 
         
         if ($_POST['horario_capacitacion_id'] < 1) {
             http_response_code(400);

@@ -10,7 +10,7 @@ use Model\Compania;
 class CompaniaController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
-        verificarPermisos('compania');
+      verificarPermisos('compania');
         
         $router->render('compania/index', []);
     }

@@ -9,7 +9,7 @@ use MVC\Router;
 class AuditoriaController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
-        verificarPermisos('auditoria');
+     verificarPermisos('auditoria');
         
         $router->render('auditoria/index', []);
     }
@@ -44,62 +44,62 @@ class AuditoriaController extends ActiveRecord{
         }
     }
 
-    public static function buscarAPI(){
-        try {
-            $sql = "SELECT 
-                h.historial_id,
-                h.historial_fecha,
-                h.historial_ejecucion,
-                u.usuario_nom1 || ' ' || u.usuario_ape1 as usuario_nombre,
-                r.ruta_descripcion as accion
-                FROM kvsc_historial_act h
-                INNER JOIN kvsc_usuario u ON u.usuario_id = h.historial_usuario_id
-                INNER JOIN kvsc_rutas r ON r.ruta_id = h.historial_ruta
-                WHERE h.historial_situacion = 1
-                ORDER BY h.historial_fecha DESC
-                LIMIT 100;";
-            $data = self::fetchArray($sql);
+   public static function buscarAPI(){
+    try {
+        $sql = "SELECT 
+            h.historial_id,
+            h.historial_fecha,
+            h.historial_ejecucion,
+            u.usuario_nom1 || ' ' || u.usuario_ape1 as usuario_nombre,
+            r.ruta_descripcion as accion
+            FROM kvsc_historial_act h
+            INNER JOIN kvsc_usuario u ON u.usuario_id = h.historial_usuario_id
+            INNER JOIN kvsc_rutas r ON r.ruta_id = h.historial_ruta
+            WHERE h.historial_situacion = 1
+            ORDER BY h.historial_fecha DESC";
+        
+        $data = self::fetchArray($sql);
 
-            http_response_code(200);
-            echo json_encode([
-                'codigo' => 1,
-                'mensaje' => 'Actividades obtenidas correctamente',
-                'data' => $data
-            ]);
-        } catch (Exception $e) {
-            http_response_code(400);
-            echo json_encode([
-                'codigo' => 0,
-                'mensaje' => 'Error al obtener actividades'
-            ]);
-        }
+        http_response_code(200);
+        echo json_encode([
+            'codigo' => 1,
+            'mensaje' => 'Actividades obtenidas correctamente',
+            'data' => $data
+        ]);
+    } catch (Exception $e) {
+        http_response_code(400);
+        echo json_encode([
+            'codigo' => 0,
+            'mensaje' => 'Error al obtener actividades'
+        ]);
     }
+}
 
-    public static function usuariosActivosAPI(){
-        try {
-            $sql = "SELECT 
-                u.usuario_nom1 || ' ' || u.usuario_ape1 as usuario,
-                COUNT(h.historial_id) as total
-                FROM kvsc_historial_act h
-                INNER JOIN kvsc_usuario u ON u.usuario_id = h.historial_usuario_id
-                WHERE h.historial_situacion = 1
-                GROUP BY u.usuario_id, u.usuario_nom1, u.usuario_ape1
-                ORDER BY total DESC
-                LIMIT 5;";
-            $data = self::fetchArray($sql);
+public static function usuariosMasActivosAPI(){
+    try {
+        $sql = "SELECT 
+            u.usuario_nom1 || ' ' || u.usuario_ape1 as usuario,
+            COUNT(h.historial_id) as total
+            FROM kvsc_historial_act h
+            INNER JOIN kvsc_usuario u ON u.usuario_id = h.historial_usuario_id
+            WHERE h.historial_situacion = 1
+            GROUP BY u.usuario_id, u.usuario_nom1, u.usuario_ape1
+            ORDER BY total DESC";
+        
+        $data = self::fetchArray($sql);
 
-            http_response_code(200);
-            echo json_encode([
-                'codigo' => 1,
-                'mensaje' => 'Usuarios activos obtenidos',
-                'data' => $data
-            ]);
-        } catch (Exception $e) {
-            http_response_code(400);
-            echo json_encode([
-                'codigo' => 0,
-                'mensaje' => 'Error'
-            ]);
-        }
+        http_response_code(200);
+        echo json_encode([
+            'codigo' => 1,
+            'mensaje' => 'Usuarios activos obtenidos',
+            'data' => $data
+        ]);
+    } catch (Exception $e) {
+        http_response_code(400);
+        echo json_encode([
+            'codigo' => 0,
+            'mensaje' => 'Error'
+        ]);
     }
+}
 }
