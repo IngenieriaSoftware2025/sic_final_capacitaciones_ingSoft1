@@ -26,7 +26,7 @@ const mostrarSecciones = () => {
 };
 
 const cargarActividades = async () => {
-    const url = '/auditorias/buscarAPI';
+    const url = '/auditoria/buscarAPI';
     const config = { method: 'GET' }
     try {
         const respuesta = await fetch(url, config);
@@ -46,7 +46,7 @@ const cargarActividades = async () => {
 };
 
 const cargarUsuariosActivos = async () => {
-    const url = '/auditorias/usuariosActivosAPI';
+    const url = '/auditoria/usuariosActivosAPI';
     const config = { method: 'GET' }
     try {
         const respuesta = await fetch(url, config);
