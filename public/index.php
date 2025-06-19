@@ -112,5 +112,10 @@ $router->get('/auditoria/usuariosMasActivosAPI', [AuditoriaController::class,'us
 $router->get('/auditoria/rutasMasUsadasAPI', [AuditoriaController::class,'rutasMasUsadasAPI']);
 $router->get('/auditoria/estadisticasGeneralesAPI', [AuditoriaController::class,'estadisticasGeneralesAPI']);
 
+//Rutas para Auditorias
+$router->get('/auditoria', [AuditoriaController::class,'renderizarPagina']);
+$router->get('/auditoria/buscarAPI', [AuditoriaController::class,'buscarAPI']);
+$router->get('/auditoria/usuariosMasActivosAPI', [AuditoriaController::class,'usuariosMasActivosAPI']);
+
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();

@@ -114,3 +114,23 @@ Configurar los archivos con la información del proyecto y la versión en la que
 
  - package.json
  - composer.json
+
+
+ #### CONTRASEÑAS
+ 4 Usuarios 
+3629116650101 / victoria11389  / ADMINISTRADOR
+1234567891011 / lesliebartolon  /  OFICINISTA
+1138902156249 / javier6576  / G3
+1110987654321 / alejandropascal
+
+PERMISOS
+Oficinista - Instructores - Compañías - Usuarios
+G3 - Capacitaciones - Horario de entrenamiento
+Administrador - TODO
+
+// verificarPermisos('marcas');
+
+
+
+
+

@@ -6,7 +6,7 @@ use Exception;
 use Model\ActiveRecord;
 use MVC\Router;
 use Model\Usuarios;
-
+use Controllers\AuditoriaController;
 
 class RegistroController extends ActiveRecord{
     
@@ -227,6 +227,8 @@ public static function guardarAPI()
 
 
                     if($resultado['resultado'] ==1){
+
+                        AuditoriaController::registrarActividad("CREAR_USUARIO", "Se registró nuevo usuario");
                         
                         http_response_code(200);
                         echo json_encode([
