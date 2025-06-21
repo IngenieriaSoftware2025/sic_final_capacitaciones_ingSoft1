@@ -6,13 +6,14 @@ use Exception;
 use MVC\Router;
 use Model\ActiveRecord;
 use Model\AsignacionPermisos;
+use Controllers\AuditoriaController;
 
 class AsignacionController extends ActiveRecord
 {
     public static function renderizarPagina(Router $router)
     {
       verificarPermisos('asignacion');
-        
+         isAuth();
         $router->render('asignacion/index', []);
     }
 
@@ -86,6 +87,9 @@ class AsignacionController extends ActiveRecord
             $resultado = $asignacion->crear();
 
             if($resultado['resultado'] == 1){
+
+                AuditoriaController::registrarActividad("ASIGNAR_PERMISO", "Permiso asignado a usuario ID: " . $_POST['asignacion_usuario_id']);
+
                 http_response_code(200);
                 echo json_encode([
                     'codigo' => 1,
@@ -228,6 +232,8 @@ class AsignacionController extends ActiveRecord
                 'asignacion_situacion' => 1
             ]);
             $data->actualizar();
+            AuditoriaController::registrarActividad("MODIFICAR_ASIGNACION", "Asignación modificada ID: " . $_POST['asignacion_id']);
+
 
             http_response_code(200);
             echo json_encode([
@@ -251,6 +257,7 @@ class AsignacionController extends ActiveRecord
         try {
             $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
             $ejecutar = AsignacionPermisos::EliminarAsignacion($id);
+            AuditoriaController::registrarActividad("ELIMINAR_ASIGNACION", "Asignación eliminada ID: " . $_GET['id']);
 
             http_response_code(200);
             echo json_encode([

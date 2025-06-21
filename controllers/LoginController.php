@@ -5,12 +5,14 @@ namespace Controllers;
 use Model\ActiveRecord;
 use MVC\Router;
 use Exception;
-
+use Controllers\AuditoriaController;
 class LoginController extends ActiveRecord
 {
     public static function renderizarPagina(Router $router)
     {
         $router->render('login/indexprincipal', [], 'layout/layout_login');
+        
+    
     }
 
     public static function renderizarPag(Router $router)
@@ -69,6 +71,8 @@ class LoginController extends ActiveRecord
                        $_SESSION[$value['permiso']] = 1; 
                     }
 
+                    AuditoriaController::registrarActividad("LOGIN", "Usuario inició sesión");
+
                     echo json_encode([
                         'codigo' => 1,
                         'mensaje' => 'Usuario logueado exitosamente',
@@ -99,10 +103,15 @@ class LoginController extends ActiveRecord
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+
+        AuditoriaController::registrarActividad("LOGOUT", "Usuario cerró sesión");
+
         $_SESSION = [];
         session_destroy();
         $login = $_ENV['APP_NAME'];
         header("Location: /$login");
+
+
         exit;
     }
 

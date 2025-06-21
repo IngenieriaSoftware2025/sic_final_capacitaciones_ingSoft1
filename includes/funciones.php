@@ -17,7 +17,7 @@ function s($html) {
 function isAuth() {
     session_start();
     if(!isset($_SESSION['login'])) {
-        header('Location: /');
+        header('Location: /sic_final_capacitaciones_ingSoft1/login');
     }
 }
 function isAuthApi() {
@@ -154,6 +154,11 @@ function verificarPermisos($modulo) {
     }
     
     return true;
+
 }
 
+// function IsRegAct () {
+  //  $insert = INSERT  INTO AUD  VALUE (nombre, mensaje,fecha, rita) value
+
+//}
 

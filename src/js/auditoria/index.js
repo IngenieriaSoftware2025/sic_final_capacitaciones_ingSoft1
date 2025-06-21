@@ -46,7 +46,7 @@ const cargarActividades = async () => {
 };
 
 const cargarUsuariosActivos = async () => {
-    const url = '/sic_final_capacitaciones_ingSoft1/auditoria/usuariosActivosAPI';
+    const url = '/sic_final_capacitaciones_ingSoft1/auditoria/usuariosMasActivosAPI';
     const config = { method: 'GET' }
     try {
         const respuesta = await fetch(url, config);

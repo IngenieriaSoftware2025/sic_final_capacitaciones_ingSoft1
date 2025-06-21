@@ -5,7 +5,7 @@ namespace Controllers;
 use Exception;
 use Model\ActiveRecord;
 use MVC\Router;
-
+use Controllers\AuditoriaController;
 class MapaController extends ActiveRecord
 {
 
@@ -13,6 +13,7 @@ class MapaController extends ActiveRecord
     {
         verificarPermisos('mapas');
         
+     isAuth();
         $router->render('mapas/index', []);
     }
 

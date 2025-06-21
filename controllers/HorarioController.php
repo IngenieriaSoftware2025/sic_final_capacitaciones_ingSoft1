@@ -6,12 +6,13 @@ use Exception;
 use Model\ActiveRecord;
 use MVC\Router;
 use Model\HorarioEntrenamiento;
-
+use Controllers\AuditoriaController;
 class HorarioController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
       verificarPermisos('horario');
         
+     isAuth();
         $router->render('horario/index', []);
     }
 
@@ -75,6 +76,9 @@ class HorarioController extends ActiveRecord{
             $resultado = $horario->crear();
 
             if($resultado['resultado'] == 1){
+
+                AuditoriaController::registrarActividad("CREAR_HORARIO", "Horario programado para capacitación ID: " . $_POST['horario_capacitacion_id']);
+
                 http_response_code(200);
                 echo json_encode([
                     'codigo' => 1,
@@ -257,6 +261,9 @@ class HorarioController extends ActiveRecord{
             $data->sincronizar($datosActualizar);
             $data->actualizar();
 
+            AuditoriaController::registrarActividad("MODIFICAR_HORARIO", "Horario modificado ID: " . $_POST['horario_id']);
+
+
             http_response_code(200);
             echo json_encode([
                 'codigo' => 1,
@@ -279,7 +286,8 @@ class HorarioController extends ActiveRecord{
             $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 
             $ejecutar = HorarioEntrenamiento::EliminarHorario($id);
-
+            AuditoriaController::registrarActividad("ELIMINAR_HORARIO", "Horario eliminado ID: " . $_GET['id']);
+            
             http_response_code(200);
             echo json_encode([
                 'codigo' => 1,

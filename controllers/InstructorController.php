@@ -6,12 +6,13 @@ use Exception;
 use Model\ActiveRecord;
 use MVC\Router;
 use Model\Instructor;
-
+use Controllers\AuditoriaController;
 class InstructorController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
     verificarPermisos('instructor');
         
+     isAuth();
         $router->render('instructor/index', []);
     }
 
@@ -84,6 +85,10 @@ class InstructorController extends ActiveRecord{
             $resultado = $instructor->crear();
 
             if($resultado['resultado'] == 1){
+
+                AuditoriaController::registrarActividad("CREAR_INSTRUCTOR", "Instructor creado: " . $_POST['instructor_nombres']);
+
+
                 http_response_code(200);
                 echo json_encode([
                     'codigo' => 1,
@@ -196,6 +201,8 @@ class InstructorController extends ActiveRecord{
             $data->sincronizar($datosActualizar);
             $data->actualizar();
 
+            AuditoriaController::registrarActividad("MODIFICAR_INSTRUCTOR", "Instructor modificado ID: " . $_POST['instructor_id']);
+
             http_response_code(200);
             echo json_encode([
                 'codigo' => 1,
@@ -218,6 +225,8 @@ class InstructorController extends ActiveRecord{
             $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 
             $ejecutar = Instructor::EliminarInstructor($id);
+
+            AuditoriaController::registrarActividad("ELIMINAR_INSTRUCTOR", "Instructor eliminado ID: " . $_GET['id']);
 
             http_response_code(200);
             echo json_encode([

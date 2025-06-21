@@ -6,12 +6,13 @@ use Exception;
 use Model\ActiveRecord;
 use MVC\Router;
 use Model\Compania;
+use Controllers\AuditoriaController;
 
 class CompaniaController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
       verificarPermisos('compania');
-        
+         isAuth();
         $router->render('compania/index', []);
     }
 
@@ -47,6 +48,9 @@ class CompaniaController extends ActiveRecord{
             $resultado = $compania->crear();
 
             if($resultado['resultado'] == 1){
+
+                AuditoriaController::registrarActividad("CREAR_COMPANIA", "Compañía creada: " . $_POST['compania_nombre']);
+
                 http_response_code(200);
                 echo json_encode([
                     'codigo' => 1,
@@ -144,6 +148,8 @@ class CompaniaController extends ActiveRecord{
             $data->sincronizar($datosActualizar);
             $data->actualizar();
 
+            AuditoriaController::registrarActividad("MODIFICAR_COMPANIA", "Compañía modificada ID: " . $_POST['compania_id']);
+
             http_response_code(200);
             echo json_encode([
                 'codigo' => 1,
@@ -166,6 +172,8 @@ class CompaniaController extends ActiveRecord{
             $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 
             $ejecutar = Compania::EliminarCompania($id);
+
+            AuditoriaController::registrarActividad("ELIMINAR_COMPANIA", "Compañía eliminada ID: " . $_GET['id']);
 
             http_response_code(200);
             echo json_encode([

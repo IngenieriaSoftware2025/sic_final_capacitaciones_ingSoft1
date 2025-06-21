@@ -6,12 +6,13 @@ use Exception;
 use Model\ActiveRecord;
 use MVC\Router;
 use Model\Capacitacion;
+use Controllers\AuditoriaController;
 
 class CapacitacionController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
         verificarPermisos('capacitacion');
-        
+         isAuth();
         $router->render('capacitacion/index', []);
     }
 
@@ -55,6 +56,10 @@ class CapacitacionController extends ActiveRecord{
             $resultado = $capacitacion->crear();
 
             if($resultado['resultado'] == 1){
+
+                AuditoriaController::registrarActividad("CREAR_CAPACITACION", "Capacitación creada: " . $_POST['capacitacion_nombre']);
+
+
                 http_response_code(200);
                 echo json_encode([
                     'codigo' => 1,
@@ -142,6 +147,8 @@ class CapacitacionController extends ActiveRecord{
             $data = Capacitacion::find($id);
             $data->sincronizar($datosActualizar);
             $data->actualizar();
+            AuditoriaController::registrarActividad("MODIFICAR_CAPACITACION", "Capacitación modificada ID: " . $_POST['capacitacion_id']);
+
 
             http_response_code(200);
             echo json_encode([
@@ -165,6 +172,7 @@ class CapacitacionController extends ActiveRecord{
             $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 
             $ejecutar = Capacitacion::EliminarCapacitacion($id);
+            AuditoriaController::registrarActividad("ELIMINAR_CAPACITACION", "Capacitación eliminada ID: " . $_GET['id']);
 
             http_response_code(200);
             echo json_encode([

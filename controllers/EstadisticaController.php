@@ -9,11 +9,13 @@ use Model\Instructor;
 use Model\Compania;
 use Model\Usuario;
 use MVC\Router;
+use Controllers\AuditoriaController;
 
 class EstadisticaController extends ActiveRecord{
     
     public static function renderizarPagina(Router $router){
         verificarPermisos('estadisticas');
+         isAuth();
 
         $router->render('estadistica/index', []);
     }

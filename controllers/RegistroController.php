@@ -11,10 +11,15 @@ use Controllers\AuditoriaController;
 class RegistroController extends ActiveRecord{
     
 public static function renderizarPagina(Router $router){
-   verificarPermisos('registro');    
-    
+
+   verificarPermisos('registro');
+
+     isAuth();
     $router->render('registro/index', []);
     }
+
+
+    // $insert = "INSERT INTO aud (nombre_aud) VALUE ( $session_usuario, "sic_final_capacitaciones_ingSoft1/registro")"S;    //RUTA a donde entro el usuario
 
 
 public static function guardarAPI()
@@ -228,7 +233,7 @@ public static function guardarAPI()
 
                     if($resultado['resultado'] ==1){
 
-                        AuditoriaController::registrarActividad("CREAR_USUARIO", "Se registró nuevo usuario");
+                        AuditoriaController::registrarActividad("REGISTRO", "Usuario registrado: " . $_POST['usuario_nom1']);
                         
                         http_response_code(200);
                         echo json_encode([
@@ -429,6 +434,9 @@ public static function modificarAPI()
         $data->sincronizar($datosActualizar);
         $data->actualizar();
 
+        AuditoriaController::registrarActividad("MODIFICAR_USUARIO", "Usuario modificado ID: " . $_POST['usuario_id']);
+
+
         http_response_code(200);
         echo json_encode([
             'codigo' => 1,
@@ -453,6 +461,8 @@ public static function EliminarAPI()
             $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 
             $ejecutar = Usuarios::EliminarUsuarios($id);
+
+            AuditoriaController::registrarActividad("ELIMINAR_USUARIO", "Usuario eliminado ID: " . $_GET['id']);
 
             http_response_code(200);
             echo json_encode([

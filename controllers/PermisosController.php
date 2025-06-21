@@ -6,13 +6,14 @@ use Exception;
 use MVC\Router;
 use Model\ActiveRecord;
 use Model\Permisos;
-
+use Controllers\AuditoriaController;
 class PermisosController extends ActiveRecord
 {
     public static function renderizarPagina(Router $router)
     {
         verificarPermisos('permisos');
         
+     isAuth();
         $router->render('permisos/index', []);
     }
 
@@ -78,6 +79,9 @@ class PermisosController extends ActiveRecord
             $resultado = $permiso->crear();
 
             if($resultado['resultado'] == 1){
+
+                AuditoriaController::registrarActividad("CREAR_PERMISO", "Permiso creado: " . $_POST['permiso_nombre']);
+
                 http_response_code(200);
                 echo json_encode([
                     'codigo' => 1,
@@ -209,6 +213,7 @@ class PermisosController extends ActiveRecord
                 'permiso_situacion' => 1
             ]);
             $data->actualizar();
+            AuditoriaController::registrarActividad("MODIFICAR_PERMISO", "Permiso modificado ID: " . $_POST['permiso_id']);
 
             http_response_code(200);
             echo json_encode([
@@ -232,6 +237,7 @@ class PermisosController extends ActiveRecord
         try {
             $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
             $ejecutar = Permisos::EliminarPermiso($id);
+            AuditoriaController::registrarActividad("ELIMINAR_PERMISO", "Permiso eliminado ID: " . $_GET['id']);
 
             http_response_code(200);
             echo json_encode([

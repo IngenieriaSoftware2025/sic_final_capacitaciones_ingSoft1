@@ -6,6 +6,7 @@ use Exception;
 use MVC\Router;
 use Model\ActiveRecord;
 use Model\Aplicacion;
+use Controllers\AuditoriaController;
 
 class AplicacionController extends ActiveRecord
 {
@@ -93,6 +94,9 @@ class AplicacionController extends ActiveRecord
             $resultado = $aplicacion->crear();
 
             if($resultado['resultado'] == 1){
+
+                AuditoriaController::registrarActividad("CREAR_APLICACION", "Aplicación creada: " . $_POST['app_nombre_largo']);
+
                 http_response_code(200);
                 echo json_encode([
                     'codigo' => 1,
@@ -237,6 +241,7 @@ public static function buscarAPI()
                 'app_situacion' => 1
             ]);
             $data->actualizar();
+            AuditoriaController::registrarActividad("MODIFICAR_APLICACION", "Aplicación modificada ID: " . $_POST['app_id']);
 
             http_response_code(200);
             echo json_encode([
@@ -260,6 +265,8 @@ public static function EliminarAPI()
     try {
         $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
         $ejecutar = Aplicacion::EliminarAplicaciones($id);
+        AuditoriaController::registrarActividad("ELIMINAR_APLICACION", "Aplicación eliminada ID: " . $_GET['id']);
+
 
         http_response_code(200);
         echo json_encode([
